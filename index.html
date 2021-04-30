@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="global.css" />
+    <!-- Latest compiled and minified CSS -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+    />
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>CRUD</title>
+  </head>
+  <body>
+    <div class="container">
+      <a href="#" data-toggle="modal" data-target="#adc-contato">
+        <button class="btn btn-primary btn-lg">ADICIONAR CONTATO</button>
+      </a>
+
+      <a href="#" data-toggle="modal" data-target="#listar-todos-contatos">
+        <button class="btn btn-primary btn-lg" onclick="fillTable()">
+          LISTAR TODOS OS CONTATOS
+        </button>
+      </a>
+
+      <a href="#" data-toggle="modal" data-target="#listar-pelo-id">
+        <button class="btn btn-primary btn-lg">LISTAR PELO ID</button>
+      </a>
+
+      <a href="#" data-toggle="modal" data-target="#deletar-contato">
+        <button class="btn btn-primary btn-lg">DELETAR CONTATO</button>
+      </a>
+
+      <a href="#" data-toggle="modal" data-target="#editar-contato">
+        <button class="btn btn-primary btn-lg">EDITAR CONTATO</button>
+      </a>
+
+      <!-- Modal Adicionar Novo Contato-->
+      <div class="modal fade" id="adc-contato" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 class="modal-title" style="font-weight: bold">
+                Adicionar Contato
+              </h3>
+              <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form">
+                <div class="form-group">
+                  <label for="create-nome">Nome</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="create-nome"
+                    id="create-nome"
+                    placeholder="Digite o seu nome"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="create-telefone">Telefone</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="create-telefone"
+                    id="create-telefone"
+                    placeholder="(88) 9 88888888"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="create-email">Email</label>
+                  <input
+                    class="form-control"
+                    type="email"
+                    name="create-email"
+                    id="create-email"
+                    placeholder="seu@email.com"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="create-nascimento">Aniversário</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="create-nascimento"
+                    id="create-nascimento"
+                    placeholder="yyyy-dd-mm"
+                  />
+                </div>
+              </form>
+            </div>
+
+            <div class="modal-footer">
+              <button
+                onclick="createContact()"
+                type="submit"
+                class="btn btn-danger"
+                data-dismiss="modal"
+              >
+                Adicionar contato
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fim Modal Adicionar Novo Contato -->
+
+      <!-- Modal Listar Todos os Contatos -->
+      <div
+        class="modal fade"
+        id="listar-todos-contatos"
+        tabindex="-1"
+        role="dialog"
+      >
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content" style="min-width: 780px">
+            <div class="modal-header">
+              <h3 class="modal-title" style="font-weight: bold">
+                Lista De Contatos
+              </h3>
+              <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div class="container-fluid">
+                <table class="table table-striped table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">NOME</th>
+                      <th scope="col">TELEFONE</th>
+                      <th scope="col">EMAIL</th>
+                      <th scope="col">ATIVO</th>
+                      <th scope="col">NASCIMENTO</th>
+                    </tr>
+                  </thead>
+                  <tbody class="tabela">
+                    <tr>
+                      <th scope="row"></th>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Sair
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fim Modal Listar Todos os Contatos -->
+
+      <!-- Modal Listar Contato Pelo ID -->
+      <div class="modal fade" id="listar-pelo-id" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content" style="min-width: 780px">
+            <div class="modal-header">
+              <h3 class="modal-title" style="font-weight: bold">
+                Listar Contato Pelo ID
+              </h3>
+              <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="list-by-id"
+                    id="list-by-id"
+                    placeholder="Informe o ID do contato"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onclick="getById()"
+                  class="btn btn-danger"
+                >
+                  Consultar
+                </button>
+
+                <table class="table table-striped table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">ID</th>
+                      <th scope="col">NOME</th>
+                      <th scope="col">TELEFONE</th>
+                      <th scope="col">EMAIL</th>
+                      <th scope="col">ATIVO</th>
+                      <th scope="col">NASCIMENTO</th>
+                    </tr>
+                  </thead>
+                  <tbody class="tabela-by-id">
+                    <tr>
+                      <th scope="row"></th>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Sair
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fim Modal Listar Contato Pelo ID -->
+
+      <!-- Deletar Contato -->
+      <div class="modal fade" id="deletar-contato" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content" style="min-width: 780px">
+            <div class="modal-header">
+              <h3 class="modal-title" style="font-weight: bold">
+                Deletar Contato
+              </h3>
+              <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              <form>
+                <div class="form-group">
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="deletar-contato-id"
+                    id="deletar-contato-id"
+                    placeholder="Informe o ID do contato"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onclick="deleteContato()"
+                  class="btn btn-danger"
+                >
+                  Deletar
+                </button>
+              </form>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-danger" data-dismiss="modal">
+                Sair
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fim Deletar Contato -->
+
+      <!-- Editar Contato -->
+      <div class="modal fade" id="editar-contato" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+          <div class="modal-content" style="min-width: 780px">
+            <div class="modal-header">
+              <h3 class="modal-title" style="font-weight: bold">
+                Editar Contato
+              </h3>
+              <button type="button" class="close" data-dismiss="modal">
+                <span>&times;</span>
+              </button>
+            </div>
+
+            <div class="modal-body">
+              
+          </form>
+          <form>
+                <div class="form-group">
+                  <label for="put-id">ID</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="put-id"
+                    id="put-id"
+                    placeholder="Informe o ID do contato"
+                  />
+                <div class="form-group" style="margin-top: 24px;">
+                  <label for="edit-nome">Edite nome</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="edit-nome"
+                    id="edit-nome"
+                    placeholder="Digite o seu nome"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="edit-telefone">Edite telefone</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="edit-telefone"
+                    id="edit-telefone"
+                    placeholder="(88) 9 88888888"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="edit-email">Edite email</label>
+                  <input
+                    class="form-control"
+                    type="email"
+                    name="edit-email"
+                    id="edit-email"
+                    placeholder="seu@email.com"
+                  />
+                </div>
+
+                <div class="form-group">
+                  <label for="edit-nascimento">Edite aniversário</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="edit-nascimento"
+                    id="edit-nascimento"
+                    placeholder="yyyy-dd-mm"
+                  />
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" onclick="editarContato()" class="btn btn-danger" data-dismiss="modal">
+                Editar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Fim Editar Contato -->
+    </div>
+    <script src="crud.js"></script>
+  </body>
+</html>
